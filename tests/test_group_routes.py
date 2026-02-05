@@ -111,12 +111,14 @@ class TestResolveGroup:
             # Note: The route has a bug - it uses counselor.firstName/lastName
             # but the model uses first_name/last_name. This will cause an AttributeError.
             # The test expects this error to reveal the bug.
-            result = await resolve_group(payload, _={}, db=mock_db_session)                
-            
+            result = await resolve_group(payload, _={}, db=mock_db_session)
+
             mock_get_user_group.assert_called_once_with(mock_db_session, 67890)
             mock_get_counselor_group.assert_called_once_with(mock_db_session, 67890)
             mock_get_counselor.assert_called_once_with(mock_db_session, 1)
-            assert result.display_name == f"{counselor.first_name} {counselor.last_name}"
+            assert (
+                result.display_name == f"{counselor.first_name} {counselor.last_name}"
+            )
             assert result.target_group_id == counselor_group.user_group_id
 
     @pytest.mark.asyncio

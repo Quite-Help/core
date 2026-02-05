@@ -4,8 +4,8 @@ from unittest.mock import MagicMock
 from jose import jwt
 from datetime import datetime, timedelta, timezone
 
-from app.core.security import hash_password, verify_password, check_auth
 from app.core.config import settings
+from app.core.security import hash_password, verify_password, check_auth
 from app.schema.account import Role
 
 

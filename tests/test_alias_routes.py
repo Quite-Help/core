@@ -19,8 +19,8 @@ class TestCreateOrGetAlias:
 
             payload = AliasRequest(telegram_user_id="12345")
 
-            result = await create_or_get_alias(payload, mock_db_session, _={}) # Expecting ValidationError from Pydantic
-            
+            result = await create_or_get_alias(payload, mock_db_session, _={})
+
             assert result.alias == existing_alias.alias
             mock_get.assert_called_once_with(mock_db_session, "12345")
 
@@ -44,7 +44,11 @@ class TestCreateOrGetAlias:
             mock_get.assert_called_once_with(mock_db_session, "12345")
             mock_generate.assert_called_once()
             assert mock_create.called
-            assert mock_create.call_args[0] == (mock_db_session, "12345", "new-generated-alias")
+            assert mock_create.call_args[0] == (
+                mock_db_session,
+                "12345",
+                "new-generated-alias",
+            )
 
     @pytest.mark.asyncio
     async def test_create_or_get_alias_generates_unique_alias(self, mock_db_session):

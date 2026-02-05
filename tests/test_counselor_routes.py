@@ -3,7 +3,11 @@ from unittest.mock import patch
 from fastapi import HTTPException
 
 from app.routes.counselor import get_counselors, get_counselor, create_counselor
-from app.models.counselor import CreateCounselorRequest, CounselorInfo, CounselorResponse
+from app.models.counselor import (
+    CreateCounselorRequest,
+    CounselorInfo,
+    CounselorResponse,
+)
 from app.schema.counselor import Counselor
 
 
@@ -99,7 +103,9 @@ class TestCreateCounselor:
             telegram_id=12345,
         )
 
-        with patch("app.routes.counselor.counselor_repo.create_counselor") as mock_create:
+        with patch(
+            "app.routes.counselor.counselor_repo.create_counselor"
+        ) as mock_create:
             create_counselor(payload, mock_db_session, _={})
 
             mock_create.assert_called_once_with(mock_db_session, payload)
@@ -113,7 +119,9 @@ class TestCreateCounselor:
             telegram_id=67890,
         )
 
-        with patch("app.routes.counselor.counselor_repo.create_counselor") as mock_create:
+        with patch(
+            "app.routes.counselor.counselor_repo.create_counselor"
+        ) as mock_create:
             create_counselor(payload, mock_db_session, _={})
 
             assert mock_create.called

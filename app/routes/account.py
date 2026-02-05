@@ -1,7 +1,7 @@
 from argon2.exceptions import VerifyMismatchError
 from fastapi import APIRouter, Depends, HTTPException
 from jose import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -37,7 +37,8 @@ async def get_token(body: LoginRequest = Depends(), db: AsyncSession = Depends(g
     payload = {
         "sub": str(account.id),
         "roles": account.roles,
-        "exp": datetime.now() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        "exp": datetime.now(timezone.utc)
+        + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
     }
     token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
     return LoginResponse(access_token=token)

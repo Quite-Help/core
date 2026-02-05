@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 from fastapi import HTTPException
 from jose import jwt
 
+from app.core.config import settings
 from app.routes.account import (
     get_token,
     bootstrap_core_api_with_an_account_with_all_roles,
@@ -10,7 +11,6 @@ from app.routes.account import (
 from app.models.account import LoginRequest
 from app.core.security import hash_password
 from app.schema.account import Account, Role
-from app.core.config import settings
 
 
 class TestGetToken:
@@ -38,12 +38,11 @@ class TestGetToken:
         assert response.access_token is not None
         assert isinstance(response.access_token, str)
 
-        # Verify token can be decoded with actual settings (skip expiration check for test)
+        # Verify token can be decoded with actual settings
         decoded = jwt.decode(
             response.access_token,
             settings.JWT_SECRET,
             algorithms=[settings.JWT_ALGORITHM],
-            options={"verify_exp": False},  # Skip expiration check in tests
         )
         assert decoded["sub"] == "1"
         # Roles are stored as strings in JWT
@@ -110,7 +109,6 @@ class TestGetToken:
             response.access_token,
             settings.JWT_SECRET,
             algorithms=[settings.JWT_ALGORITHM],
-            options={"verify_exp": False},  # Skip expiration check in tests
         )
         # Roles are stored as strings in JWT
         assert "admin" in decoded.get("roles", [])

@@ -157,7 +157,9 @@ class TestGroupRepository:
         mock_result.scalar_one_or_none.return_value = group
         mock_db_session.execute.return_value = mock_result
 
-        result = await group_repo.get_group_by_counselor_group_id(mock_db_session, 67890)
+        result = await group_repo.get_group_by_counselor_group_id(
+            mock_db_session, 67890
+        )
 
         assert result is not None
         assert result.id == 1
@@ -171,7 +173,9 @@ class TestGroupRepository:
         mock_result.scalar_one_or_none.return_value = None
         mock_db_session.execute.return_value = mock_result
 
-        result = await group_repo.get_group_by_counselor_group_id(mock_db_session, 99999)
+        result = await group_repo.get_group_by_counselor_group_id(
+            mock_db_session, 99999
+        )
 
         assert result is None
         mock_db_session.execute.assert_called_once()

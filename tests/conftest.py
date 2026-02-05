@@ -1,3 +1,4 @@
+import tests.env_set_test  # noqa: F401
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 from sqlalchemy.ext.asyncio import AsyncSession

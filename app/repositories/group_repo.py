@@ -22,9 +22,7 @@ async def get_group_by_counselor_and_user_id(
     db: AsyncSession, payload: GroupLinkRequest
 ) -> Group:
     user_result = await db.scalars(
-        select(Alias).where(
-            Alias.telegram_user_id == payload.telegram_user_id
-        )
+        select(Alias).where(Alias.telegram_user_id == payload.telegram_user_id)
     )
     alias = user_result.one_or_none()
     if alias is None:
