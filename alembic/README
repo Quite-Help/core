@@ -1,4 +1,3 @@
-# core
 to run application install docker and docker-compose first then follow the commands bellow to run application
 ```
 cp .env.example .env
