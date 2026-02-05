@@ -21,7 +21,12 @@ def create_group(db: AsyncSession, payload: CreateGroupRequest):
 async def get_group_by_counselor_and_user_id(
     db: AsyncSession, payload: GroupLinkRequest
 ) -> Group:
-    result = await db.execute(select(Group).where(Group.counselor_id == payload.counselor_id and Group.telegram_user_id == payload.telegram_user_id))
+    result = await db.execute(
+        select(Group).where(
+            Group.counselor_id == payload.counselor_id
+            and Group.telegram_user_id == payload.telegram_user_id
+        )
+    )
     return result.scalar_one_or_none()
 
 

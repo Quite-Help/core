@@ -10,10 +10,14 @@ http_bearer = HTTPBearer()
 
 
 def check_auth(required_roles: list[Role] = []):
-    def check_auth_internal(security: HTTPAuthorizationCredentials = Depends(http_bearer)):
+    def check_auth_internal(
+        security: HTTPAuthorizationCredentials = Depends(http_bearer),
+    ):
         try:
             payload = jwt.decode(
-                security.credentials, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM]
+                security.credentials,
+                settings.JWT_SECRET,
+                algorithms=[settings.JWT_ALGORITHM],
             )
             roles = set(payload.get("roles", []))
             for req_role in required_roles:
@@ -27,6 +31,7 @@ def check_auth(required_roles: list[Role] = []):
 
 
 ph = PasswordHasher()
+
 
 def hash_password(password: str) -> str:
     return ph.hash(password)

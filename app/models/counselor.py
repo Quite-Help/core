@@ -12,6 +12,7 @@ class CounselorResponse(BaseModel):
     name: str
     bio: str
 
+
 class CreateCounselorRequest(BaseModel):
     first_name: str
     last_name: str

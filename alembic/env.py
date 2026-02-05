@@ -36,7 +36,7 @@ config.set_section_option(
     "sqlalchemy.url",
     db_url,
 )
-    
+
 # -----------------------------------------------
 
 

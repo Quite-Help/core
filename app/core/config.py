@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Settings(BaseSettings):
     DATABASE_URL: str
     JWT_SECRET: str
@@ -13,5 +14,5 @@ class Settings(BaseSettings):
 settings = Settings(
     DATABASE_URL=os.environ["DATABASE_URL"],
     JWT_SECRET=os.environ["JWT_SECRET"],
-    JWT_ALGORITHM=os.environ["JWT_ALGORITHM"]
+    JWT_ALGORITHM=os.environ["JWT_ALGORITHM"],
 )

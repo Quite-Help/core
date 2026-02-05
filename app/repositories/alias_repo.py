@@ -4,7 +4,9 @@ from app.schema import Alias
 
 
 async def get_by_telegram_user_id(db: AsyncSession, telegram_user_id: str) -> Alias:
-    result = await db.scalars(select(Alias).where(Alias.telegram_user_id == telegram_user_id))
+    result = await db.scalars(
+        select(Alias).where(Alias.telegram_user_id == telegram_user_id)
+    )
     return result.all()
 
 

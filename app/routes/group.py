@@ -17,14 +17,18 @@ router = APIRouter(prefix="/groups", tags=["Groups"])
 
 @router.post("")
 def create_group(
-    payload: CreateGroupRequest, _: dict = Depends(check_auth([Role.SERVICE])), db=Depends(get_db)
+    payload: CreateGroupRequest,
+    _: dict = Depends(check_auth([Role.SERVICE])),
+    db=Depends(get_db),
 ):
     group_repo.create_group(db, payload)
 
 
 @router.post("/resolve", response_model=ResolveGroupResponse)
 async def resolve_group(
-    payload: ResolveGroupRequest, _: dict = Depends(check_auth([Role.SERVICE])), db=Depends(get_db)
+    payload: ResolveGroupRequest,
+    _: dict = Depends(check_auth([Role.SERVICE])),
+    db=Depends(get_db),
 ):
     user_group = await group_repo.get_group_by_telegram_user_id(db, payload.group_id)
     if user_group is not None:
@@ -32,7 +36,9 @@ async def resolve_group(
             target_group_id=user_group.counselor_group_id,
             display_name=user_group.user_alias,
         )
-    counselor_group = await group_repo.get_group_by_counselor_group_id(db, payload.group_id)
+    counselor_group = await group_repo.get_group_by_counselor_group_id(
+        db, payload.group_id
+    )
     if counselor_group is not None:
         counselor = await counselor_repo.get_by_id(counselor_group.counselor_id)
         return ResolveGroupResponse(
@@ -44,7 +50,9 @@ async def resolve_group(
 
 @router.post("/link", response_model=GroupLinkResponse)
 async def get_group_link(
-    payload: GroupLinkRequest, _: dict = Depends(check_auth([Role.SERVICE])), db=Depends(get_db)
+    payload: GroupLinkRequest,
+    _: dict = Depends(check_auth([Role.SERVICE])),
+    db=Depends(get_db),
 ):
     group = await group_repo.get_group_by_counselor_and_user_id(db, payload)
     if not group:
