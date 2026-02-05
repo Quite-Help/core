@@ -1,3 +1,4 @@
+from argon2.exceptions import VerifyMismatchError
 from fastapi import APIRouter, Depends, HTTPException
 from jose import jwt
 from datetime import datetime, timedelta
@@ -25,8 +26,13 @@ async def get_token(body: LoginRequest = Depends(), db: AsyncSession = Depends(g
     account = (
         await db.scalars(select(Account).where(Account.username == body.username))
     ).first()
-    if not account or not verify_password(body.password, account.password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+    error_msg = "Invalid credentials"
+    if not account:
+        raise HTTPException(status_code=401, detail=error_msg)
+    try:
+        verify_password(body.password, account.password)
+    except VerifyMismatchError:
+        raise HTTPException(status_code=401, detail=error_msg)
 
     payload = {
         "sub": str(account.id),

@@ -40,10 +40,10 @@ async def resolve_group(
         db, payload.group_id
     )
     if counselor_group is not None:
-        counselor = await counselor_repo.get_by_id(counselor_group.counselor_id)
+        counselor = await counselor_repo.get_by_id(db, counselor_group.counselor_id)
         return ResolveGroupResponse(
             target_group_id=counselor_group.user_group_id,
-            display_name=f"{counselor.firstName} {counselor.lastName}",
+            display_name=f"{counselor.first_name} {counselor.last_name}",
         )
     raise HTTPException(404, "group not found")
 

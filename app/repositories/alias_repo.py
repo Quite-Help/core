@@ -7,7 +7,7 @@ async def get_by_telegram_user_id(db: AsyncSession, telegram_user_id: str) -> Al
     result = await db.scalars(
         select(Alias).where(Alias.telegram_user_id == telegram_user_id)
     )
-    return result.all()
+    return result.one_or_none()
 
 
 def create_user_alias(db: AsyncSession, telegram_user_id: str, alias: str):

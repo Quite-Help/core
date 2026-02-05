@@ -20,7 +20,7 @@ async def create_or_get_alias(
         db, payload.telegram_user_id
     )
     if exisiting_alias is not None:
-        return AliasResponse(alias=exisiting_alias)
+        return AliasResponse(alias=exisiting_alias.alias)
     new_alias = generate_alias()
-    alias_repo.create_user_alias(payload.telegram_user_id, new_alias)
+    alias_repo.create_user_alias(db, payload.telegram_user_id, new_alias)
     return AliasResponse(alias=new_alias)

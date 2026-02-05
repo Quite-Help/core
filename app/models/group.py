@@ -23,5 +23,5 @@ class CreateGroupRequest(BaseModel):
 
 
 class GroupLinkRequest(BaseModel):
-    telegram_user_id: int
+    telegram_user_id: str
     counselor_id: int
