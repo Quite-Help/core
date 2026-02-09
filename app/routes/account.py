@@ -22,7 +22,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 
 @router.post("/token", response_model=LoginResponse)
-async def get_token(body: LoginRequest = Depends(), db: AsyncSession = Depends(get_db)):
+async def get_token(body: LoginRequest, db: AsyncSession = Depends(get_db)):
     account = (
         await db.scalars(select(Account).where(Account.username == body.username))
     ).first()
